@@ -1,0 +1,145 @@
+#TODO
+# Add Power/Sleep Menu
+# Reference: https://github.com/SxC97/dotfiles/tree/main/.config/sketchybar
+#  󰷗
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+BACKGROUND_HEIGHT=24
+
+##### Bar Appearance #####
+sketchybar -m --bar \
+                  height=32 \
+                  blur_radius=0 \
+                  position=top \
+                  padding_top= \
+                  padding_left=10 \
+                  padding_right=10 \
+                  padding_bottom=0 \
+                  margin=0 \
+                  y_offset=0 \
+                  corner_radius=5 \
+                  color=0x88222925 \
+                  shadow=true
+
+##### Global Defaults #####
+default=(
+  padding_left=0
+  padding_right=0
+  icon.font="CaskaydiaMono Nerd Font Propo:Bold:14.0"
+  icon.color=0xffffffff
+  icon.background.height=$BACKGROUND_HEIGHT
+  icon.background.corner_radius=2
+  icon.width=28
+  icon.align=center
+  icon.padding_left=2
+  icon.padding_right=0
+  label.font="CaskaydiaMono Nerd Font Propo:Bold:12.5"
+  label.color=0xffffffff
+  label.padding_left=8
+  label.padding_right=8
+  background.height=$BACKGROUND_HEIGHT
+  background.corner_radius=2
+)
+sketchybar --default "${default[@]}"
+
+##### Adding Left Items #####
+sketchybar -m --add item logo left \
+              --set logo icon= \
+                    label.drawing=off \
+                    click_script="sketchybar -m --update"
+
+##### Adding Aerospace Indicators #####
+sketchybar --add event aerospace_workspace_change
+
+for sid in $(aerospace list-workspaces --all); do
+    sketchybar --add item space.$sid left \
+               --subscribe space.$sid aerospace_workspace_change \
+               --set space.$sid \
+                    icon.width=0 \
+                    background.color=0xffD699B6 \
+                    background.height=$BACKGROUND_HEIGHT \
+                    background.drawing=off \
+                    label="$sid" \
+                    click_script="aerospace workspace $sid" \
+                    script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+done
+
+sketchybar --add bracket spaces '/space\..*/'               \
+           --set         spaces background.color=0xff463F48 \
+
+sketchybar --add item chevron left \
+           --set chevron icon= label.drawing=off \
+           --add item front_app left \
+           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched \
+
+##### Adding Right Items #####
+sketchybar --add item clock right \
+           --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
+                icon.background.color=0xaa7FBBB3 \
+                background.color=0xff384B55 \
+                padding_left=5 \
+                padding_right=10 \
+           --add item volume right \
+           --set volume script="$PLUGIN_DIR/volume.sh" \
+                icon.font.size=16 \
+                icon.background.color=0xaa87C080 \
+                background.color=0xff3C4841 \
+                padding_left=5 \
+           --subscribe volume volume_change \
+           --add item battery right \
+           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+                icon.background.color=0xaaDBBC7F \
+                background.color=0xff45443C \
+                padding_left=5 \
+           --subscribe battery system_woke power_source_change \
+           --add item net right \
+           --set net \
+                icon=󰷗 \
+                icon.background.color=0xaaE67E80 \
+                label.padding_right=5 \
+                label.padding_left=5 \
+                update_freq=60 \
+                script="~/.config/sketchybar/plugins/net_id.sh" \
+
+sketchybar --add bracket networking net network_up network_down \
+           --set networking \
+                background.color=0xff493B40 \
+                                
+
+##### Force all scripts to run the first time (never do this in a script) #####
+sketchybar --update
+
+
+
+
+
+
+##### Storage #####
+
+# sketchybar -m --add item packages right \
+#               --set packages update_freq=1800 \
+#                              script="~/.config/sketchybar/plugins/package_monitor.sh" \
+#                              label= \
+#                              lazy=off \
+#                              background.color=0xff3B4252 \
+#                              background.height=20
+
+#  --add item network_up right \
+#  --set network_up label.font="CaskaydiaMono Nerd Font Propo:Regular:10.0" \
+#                   icon.font="CaskaydiaMono Nerd Font Propo:Regular:8ss.0" \
+#                   icon= \
+#                   label.padding_left=0 \
+#                   label.padding_right=5 \
+#                   y_offset=5 \
+#                   width=0 \
+#                   update_freq=1 \
+#                   script="~/.config/sketchybar/plugins/network.sh" \
+#  --add item network_down right \
+#  --set network_down label.font="CaskaydiaMono Nerd Font Propo:Regular:10.0" \
+#                     icon.font="CaskaydiaMono Nerd Font Propo:Regular:8s.0" \
+#                     icon= \
+#                     label.padding_left=0 \
+#                     label.padding_right=5 \
+#                     y_offset=-5 \
+#                     update_freq=1 \
