@@ -5,9 +5,8 @@
 [general]
 working_directory = "~"
 import = [
-  "~/.config/alacritty/mappings.toml",
-#  "~/Documents/Dev/dotfiles/themes/alacritty-theme/heme/themes/kanagawa_dragon.toml",
-  "~/Documents/Dev/dotfiles/themes/alacritty-theme/heme/themes/everforest_dark.toml",
+  "~/.config/alacritty/mapping.toml",
+  "~/.config/alacritty/theme.toml",
 ]
 
 [env]
