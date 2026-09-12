@@ -11,10 +11,8 @@ sketchybar -m --bar \
                   height=32 \
                   blur_radius=0 \
                   position=top \
-                  padding_top= \
                   padding_left=10 \
                   padding_right=10 \
-                  padding_bottom=0 \
                   margin=0 \
                   y_offset=0 \
                   corner_radius=5 \

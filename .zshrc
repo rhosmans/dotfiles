@@ -123,7 +123,7 @@ alias nordify='$projects/Scripts/ConvertNord/convert_nord.zsh'
 export GOPATH=$HOME/go
 
 #Paths
-export PATH="opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$PATH:/Users/$user/go/bin"
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
@@ -132,12 +132,19 @@ export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$
 
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh  # This loads NVM
 
-# Boot tmux if tmux is exists
+# Boot tmux if tmux exists.
+# Note: the guards must use double quotes -- with single quotes the shell
+# compares the literal text '$TMUX' instead of the variable, so every test
+# passed and the block either always or never fired.
+# [ -t 1 ] keeps this from firing in interactive-but-not-a-terminal shells
+# (zsh -i -c '...', editor/tooling shells), where tmux would abort with
+# "open terminal failed: not a terminal".
 if command -v tmux &>/dev/null &&
-    [ -n '$PS1' ] &&
-    [[ ! '$TERM' =~ screen ]] &&
-    [[ ! '$TERM' =~ tmux ]] &&
-    [ -z '$TMUX' ]; then
+    [[ -o interactive ]] &&
+    [ -t 1 ] &&
+    [[ ! "$TERM" =~ screen ]] &&
+    [[ ! "$TERM" =~ tmux ]] &&
+    [ -z "$TMUX" ]; then
     exec tmux
 fi
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -147,6 +154,11 @@ fi
 if [ -d "/opt/homebrew/opt/ruby/bin" ]; then
   export PATH=/opt/homebrew/opt/ruby/bin:$PATH
   export PATH=`gem environment gemdir`/bin:$PATH
+fi
+
+# Ruby 3.3.6 via ruby-build for AdaptedMindMonoFront mobile (takes precedence)
+if [ -d "$HOME/.rubies/3.3.6/bin" ]; then
+  export PATH="$HOME/.rubies/3.3.6/bin:$PATH"
 fi
 
 # Add yarn global bin to PATH
@@ -160,10 +172,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/reave/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/reave/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/reave/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/reave/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 export PATH="${HOME}/.local/bin":${PATH}
 
 # Enable Starship

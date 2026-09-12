@@ -1,116 +1,158 @@
 ############################################ TMUX ############################################
-# Go to the N window in tmux in tmux it is Ctrl+b+number
+# Go to the N window in tmux, it is prefix+number (prefix is Ctrl+a per .tmux.conf)
 [[keyboard.bindings]]
-chars = "\u0002\u0032"
-key = "2"
-mods = "Command"
-
-[[keyboard.bindings]]
-chars = "\u0002\u0031"
+chars = "\u0001\u0031"
 key = "1"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0032"
+chars = "\u0001\u0032"
 key = "2"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0033"
+chars = "\u0001\u0033"
 key = "3"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0034"
+chars = "\u0001\u0034"
 key = "4"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0035"
+chars = "\u0001\u0035"
 key = "5"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0036"
+chars = "\u0001\u0036"
 key = "6"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0037"
+chars = "\u0001\u0037"
 key = "7"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0038"
+chars = "\u0001\u0038"
 key = "8"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0039"
+chars = "\u0001\u0039"
 key = "9"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002\u0030"
+chars = "\u0001\u0030"
 key = "0"
 mods = "Command"
 
 # New tmux window on Cmd+t in tmux it is Ctrl+b+c
 [[keyboard.bindings]]
-chars = "\u0002\u0063"
+chars = "\u0001\u0063"
 key = "t"
 mods = "Command"
 
 # Close tmux pane on Cmd+w in tmux it is Ctrl+b+x (it is using a custom keybind in tmux to kill the pane)
 [[keyboard.bindings]]
-chars = "\u0002\u0078"
+chars = "\u0001\u0078"
 key = "w"
 mods = "Command"
 
 # Go to the left tab on Cmd+[ in tmux it is Ctrl+b+p
 [[keyboard.bindings]]
-chars = "\u0002\u0070"
+chars = "\u0001\u0070"
 key = "["
 mods = "Command"
 
 # Go to the right tab on Cmd+] in tmux it is Ctrl+b+n
 [[keyboard.bindings]]
-chars = "\u0002\u006e"
+chars = "\u0001\u006e"
 key = "]"
 mods = "Command"
 
 # Go to the last tab on Cmd+l in tmux it is Ctrl+b+l
 [[keyboard.bindings]]
-chars = "\u0002\u006c"
+chars = "\u0001\u006c"
 key = "l"
 mods = "Command"
 
 # Open window list panel on Cmd+` in tmux it is Ctrl+b+w
 [[keyboard.bindings]]
-chars = "\u0002\u0077"
+chars = "\u0001\u0077"
 key = "`"
 mods = "Command"
 
 # Split Window Horizontally on Cmd+\ in tmux it is Ctrl+b+"
 [[keyboard.bindings]]
-chars = "\u0002\u0022"
+chars = "\u0001\u0022"
 key = "\\"
 mods = "Command"
 
 # Split Window Vertically on Cmd+| in tmux it is Ctrl+b+%
 [[keyboard.bindings]]
-chars = "\u0002\u0025"
+chars = "\u0001\u0025"
 key = "|"
 mods = "Command | Shift"
 
 # Go to copy mode on Cmd+u in tmux it is Ctrl+b+[
 [[keyboard.bindings]]
-chars = "\u0002\u005b"
+chars = "\u0001\u005b"
 key = "u"
 mods = "Command"
 
 # Resize-pane -Z on Cmd+z in tmux it is Ctrl+b+z
 [[keyboard.bindings]]
-chars = "\u0002\u007a"
+chars = "\u0001\u007a"
 key = "z"
 mods = "Command"
+
+# Clear screen + tmux scrollback on Cmd+k, sends prefix+Ctrl+k (bound in .tmux.conf).
+# Overrides Alacritty's default Cmd+k, which sent Ctrl+L and got swallowed by
+# vim-tmux-navigator's pane-focus binding.
+[[keyboard.bindings]]
+chars = "\u0001\u000b"
+key = "K"
+mods = "Command"
+
+# Clear the whole input line on Cmd+Backspace -> Ctrl+U (zsh kill-whole-line)
+[[keyboard.bindings]]
+chars = "\u0015"
+key = "Back"
+mods = "Command"
+
+# Send a literal Ctrl+A on Cmd+a, since Ctrl+A is the tmux prefix and gets
+# swallowed (apps like Claude Code's /resume picker use Ctrl+A).
+# Alternative without this binding: press Ctrl+A twice (send-prefix).
+[[keyboard.bindings]]
+chars = "\u0001"
+key = "A"
+mods = "Command"
+
+######################################## LINE NAVIGATION ########################################
+# Cmd+Left/Right -> Home/End escape sequences (start/end of line).
+# Deliberately NOT Ctrl-A/Ctrl-E: Ctrl-A is the tmux prefix and would be swallowed.
+# tmux translates these into the sequences zsh binds inside it (Home / End).
+[[keyboard.bindings]]
+chars = "\u001bOH"
+key = "Left"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001bOF"
+key = "Right"
+mods = "Command"
+
+# Option+Left/Right -> ESC-b / ESC-f (back/forward one word, zsh emacs-mode defaults)
+[[keyboard.bindings]]
+chars = "\u001bb"
+key = "Left"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001bf"
+key = "Right"
+mods = "Alt"
