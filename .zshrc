@@ -141,6 +141,9 @@ export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$
 if command -v tmux &>/dev/null &&
     [[ -o interactive ]] &&
     [ -t 1 ] &&
+    [[ "$TERM_PROGRAM" != "vscode" ]] &&
+    [ -z "$CLAUDECODE" ] &&
+    [[ "$__CFBundleIdentifier" != "com.anthropic.claudefordesktop" ]] &&
     [[ ! "$TERM" =~ screen ]] &&
     [[ ! "$TERM" =~ tmux ]] &&
     [ -z "$TMUX" ]; then
@@ -155,9 +158,9 @@ if [ -d "/opt/homebrew/opt/ruby/bin" ]; then
   export PATH=`gem environment gemdir`/bin:$PATH
 fi
 
-# Ruby 3.3.6 via ruby-build for AdaptedMindMonoFront mobile (takes precedence)
-if [ -d "$HOME/.rubies/3.3.6/bin" ]; then
-  export PATH="$HOME/.rubies/3.3.6/bin:$PATH"
+# Ruby 4.0.6 via ruby-build for work mobile builds (takes precedence)
+if [ -d "$HOME/.rubies/4.0.6/bin" ]; then
+  export PATH="$HOME/.rubies/4.0.6/bin:$PATH"
 fi
 
 # Add yarn global bin to PATH
@@ -189,3 +192,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+
+# Machine-specific config and secrets; kept out of this public repo.
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local

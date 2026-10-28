@@ -1,0 +1,7 @@
+.DS_Store
+.viminfo
+.config/configstore/
+.config/karabiner/automatic_backups/
+.config/calcure/*.csv
+.config/calcure/*.log
+*.backup
