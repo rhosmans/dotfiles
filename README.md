@@ -67,7 +67,7 @@ Installed with [`mas`](https://github.com/mas-cli/mas). Sign in to the App Store
 - **Alacritty:** `Cmd-←/→` jumps to the start or end of the line. `Option-←/→` jumps one word back or forward.
 
 ## Git identity
-This repo is public. `install.sh` sets a repo-local `user.email` (`rhosmans@gmail.com`), so commits here never use the global work address.
+This repo is public. `install.sh` sets a repo-local `user.email` to GitHub's noreply address, so commits here never use the global work address or a real inbox.
 
 ## Machine-local config
 `.zshrc` sources `~/.zshrc.local` at the end if it exists. Put work-specific config and secrets there; it isn't part of this repo.

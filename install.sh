@@ -187,10 +187,12 @@ chmod +x "$DOTFILES/.config/sketchybar/sketchybarrc" \
 
 # ------------------------------------------------------------ Git identity ---
 step "Git identity for this repo"
-# This repo is public: commit with the personal address regardless of the
-# global user.email. Repo-local config always wins over ~/.gitconfig.
-git -C "$DOTFILES" config user.email rhosmans@gmail.com \
-  && ok "dotfiles commits use rhosmans@gmail.com" || warn "could not set user.email for $DOTFILES"
+# This repo is public: commit with GitHub's noreply address (still linked to
+# the account) instead of the global work email or a real inbox.
+# Repo-local config always wins over ~/.gitconfig.
+GIT_EMAIL=4683213+rhosmans@users.noreply.github.com
+git -C "$DOTFILES" config user.email "$GIT_EMAIL" \
+  && ok "dotfiles commits use $GIT_EMAIL" || warn "could not set user.email for $DOTFILES"
 
 # --------------------------------------------------- tmux plugin manager ---
 step "tmux plugin manager (tpm)"
